@@ -28,6 +28,20 @@ class CounterCubit extends Cubit<int> {
   void kurangData() {
     emit(state - 1);
   }
+
+  @override
+  void onChange(Change<int> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+    print(change);
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    // TODO: implement onError
+    super.onError(error, stackTrace);
+    print(error);
+  }
 }
 
 class HomePage extends StatelessWidget {
@@ -63,14 +77,14 @@ class HomePage extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    myCounter.tambahData();
-                  },
-                  icon: const Icon(Icons.add)),
-              IconButton(
-                  onPressed: () {
                     myCounter.kurangData();
                   },
                   icon: const Icon(Icons.remove)),
+              IconButton(
+                  onPressed: () {
+                    myCounter.tambahData();
+                  },
+                  icon: const Icon(Icons.add)),
             ],
           )
         ],
