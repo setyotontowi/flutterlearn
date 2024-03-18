@@ -11,23 +11,31 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bloc Builder"),
+        title: const Text("Bloc Listener"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocBuilder(
+          // The difference between Listen and Build is the render. Build will re render UI after state change. Listen only listen
+          BlocListener(
             bloc: myCounter,
-            buildWhen: ((previous, current) {
+            listener: (context, state) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text("Sudah Mencapai 15")));
+            },
+            listenWhen: (previous, current) {
               if ((current as int) % 2 == 0) return true;
               return false;
-            }),
-            builder: (context, state) {
-              return Text(
-                "$state",
-                style: const TextStyle(fontSize: 50),
-              );
             },
+            child: BlocBuilder(
+              bloc: myCounter,
+              builder: (context, state) {
+                return Text(
+                  "$state",
+                  style: const TextStyle(fontSize: 50),
+                );
+              },
+            ),
           ),
           const SizedBox(
             height: 50,
