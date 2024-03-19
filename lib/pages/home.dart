@@ -13,20 +13,54 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            BlocBuilder<CounterBloc, int>(
-                bloc: counter,
-                builder: (context, state) {
-                  return Text(
-                    "$state",
-                    style: TextStyle(fontSize: 50),
-                  );
-                }),
+            MultiBlocListener(
+              listeners: [
+                BlocListener<ThemeBloc, bool>(
+                  listener: (context, state) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tema Gelap Aktif"),
+                      duration: Duration(seconds: 1),
+                    ));
+                  },
+                  listenWhen: (previous, current) {
+                    if (current == false) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  },
+                ),
+                BlocListener<CounterBloc, int>(
+                  listener: (context, state) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Angka Diatas 10"),
+                      duration: Duration(seconds: 1),
+                    ));
+                  },
+                  listenWhen: (previous, current) {
+                    if (current > 10) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  },
+                ),
+              ],
+              child: BlocBuilder<CounterBloc, int>(
+                  bloc: counter,
+                  builder: (context, state) {
+                    return Text(
+                      "$state",
+                      style: const TextStyle(fontSize: 50),
+                    );
+                  }),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
