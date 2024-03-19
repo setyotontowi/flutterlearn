@@ -1,4 +1,4 @@
-import 'package:bloc_archi_1/pages/center_data_widget.dart';
+import 'package:bloc_archi_1/home/center_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class Biru extends StatelessWidget {

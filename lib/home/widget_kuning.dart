@@ -1,4 +1,4 @@
-import 'package:bloc_archi_1/pages/widget_biru.dart';
+import 'package:bloc_archi_1/home/widget_biru.dart';
 import 'package:flutter/material.dart';
 
 class Kuning extends StatelessWidget {

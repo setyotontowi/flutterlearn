@@ -1,5 +1,6 @@
 import 'package:bloc_archi_1/bloc/counter.dart';
-import 'package:bloc_archi_1/pages/widget_merah..dart';
+import 'package:bloc_archi_1/home/widget_merah..dart';
+import 'package:bloc_archi_1/other/other.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bloc Provider"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => BlocProvider.value(value: myCounter, child: const OtherPage()),
+          ));
+        },
+        child: const Icon(Icons.arrow_forward),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

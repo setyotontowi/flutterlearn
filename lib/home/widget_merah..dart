@@ -1,4 +1,4 @@
-import 'package:bloc_archi_1/pages/widget_kuning.dart';
+import 'package:bloc_archi_1/home/widget_kuning.dart';
 import 'package:flutter/material.dart';
 
 class Merah extends StatelessWidget {
