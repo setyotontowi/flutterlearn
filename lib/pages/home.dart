@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bloc_archi_1/bloc/counter.dart';
 import 'package:bloc_archi_1/bloc/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,58 +10,46 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserBloc userBloc = context.read();
+    // Extensions Method
+    // 1. context.read()
+    // 2. context.watch()
+    // 3. context.select()
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          BlocSelector<UserBloc, Map<String, dynamic>, String>(
-            selector: (state) => state["name"],
-            builder: (context, state) {
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Builder(builder: (context) {
+              CounterBloc counterBloc = context.watch<CounterBloc>();
+              String nameUser = context.select<UserBloc, String>((value) => value.state["name"]);
               return Text(
-                "Nama : $state",
+                "${counterBloc.state}",
+                style: const TextStyle(fontSize: 100),
               );
-            },
-          ),
-          BlocSelector<UserBloc, Map<String, dynamic>, int>(
-            selector: (state) => state["age"],
-            builder: (context, state) {
-              return Text(
-                "Umur : $state Tahun",
-              );
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextField(
-            onChanged: (value) => userBloc.changeName(value),
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  userBloc.changeAge(userBloc.state["age"] - 1);
-                },
-                icon: const Icon(Icons.remove),
-              ),
-              IconButton(
-                onPressed: () {
-                  userBloc.changeAge(userBloc.state["age"] + 1);
-                },
-                icon: const Icon(Icons.add),
-              )
-            ],
-          )
-        ],
+            }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.read<CounterBloc>().remove();
+                  },
+                  icon: const Icon(Icons.remove),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.read<CounterBloc>().add();
+                  },
+                  icon: const Icon(Icons.add),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
